@@ -1,0 +1,40 @@
+{
+  "name": "postcss-responsive-type",
+  "version": "0.1.0",
+  "description": "PostCSS plugin that adds responsive magic to font-size",
+  "keywords": [
+    "postcss",
+    "css",
+    "postcss-plugin",
+    "typography"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seaneking/postcss-responsive-type.git"
+  },
+  "author": "Sean King <sean@simpla.io>",
+  "maintainers": [
+    {
+      "name": "Sean King",
+      "email": "sean@simpla.io",
+      "web": "http://simpla.io"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/seaneking/postcss-responsive-type/issues"
+  },
+  "homepage": "https://github.com/seaneking/postcss-responsive-type",
+  "dependencies": {
+    "postcss": "^4.1.9"
+  },
+  "devDependencies": {
+    "gulp-eslint": "^0.12.0",
+    "gulp-mocha": "^2.0.1",
+    "chai": "^2.3.0",
+    "gulp": "^3.8.11"
+  },
+  "scripts": {
+    "test": "gulp check"
+  }
+}
