@@ -9,7 +9,8 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
     minSize: '12px',
     maxSize: '21px',
     minWidth: '420px',
-    maxWidth: '1280px'
+    maxWidth: '1280px',
+    rootSize: '16px'
   };
 
   // Map expanded declarations to params
@@ -55,6 +56,13 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
         decl.removeSelf();
       });
     });
+
+    // Check root font-size (for rem units)
+    if (rule.selector === 'html'){
+      rule.eachDecl('font-size', function(decl){
+        params.rootSize = decl.value;
+      });
+    }
 
   };
 
