@@ -116,31 +116,27 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
 
       rule.eachDecl('font-size', function(decl){
 
-        // If rule doesn't contain responsve keyword, exit
-        if (!decl.value.indexOf('responsive') > -1) {
+        // If decl doesn't contain responsve keyword, exit
+        if (decl.value.indexOf('responsive') === -1) {
           return;
         }
 
-        // Otherwise store the rul in a var
         thisRule = decl.parent;
 
-      });
+        fetchParams(thisRule);
 
-      fetchParams(rule);
+        buildRules(thisRule, newRules);
 
-      buildRules(rule, newRules);
-
-      // Insert the base responsive decleration
-      rule.eachDecl('font-size', function(decl){
+        // Insert the base responsive decleration
         if (decl.value.indexOf('responsive') > -1) {
           decl.replaceWith({prop: decl.prop, value: newRules.responsive });
         }
+
+        // Insert the media queries
+        thisRule.parent.insertAfter(thisRule, newRules.minMedia);
+        thisRule.parent.insertAfter(newRules.minMedia, newRules.maxMedia);
+
       });
-
-      // Insert the media queries
-      rule.parent.insertAfter(thisRule, newRules.minMedia);
-      rule.parent.insertAfter(newRules.minMedia, newRules.maxMedia);
-
     });
   };
 

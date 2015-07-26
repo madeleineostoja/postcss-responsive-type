@@ -1,3 +1,7 @@
 .foo {
   font-size: responsive;
 }
+
+.bar {
+  foo: bar;
+}

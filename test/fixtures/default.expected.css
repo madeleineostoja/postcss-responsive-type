@@ -1,4 +1,6 @@
-
+.foo {
+  font-size: calc(12px + 9 * ((100vw - 420px) / 860));
+}
 @media screen and (max-width: 420px) {
   .foo {
     font-size: 12px;
@@ -8,6 +10,8 @@
   .foo {
     font-size: 21px;
   }
-}.foo {
-  font-size: calc(12px + 9 * ((100vw - 420px) / 860));
+}
+
+.bar {
+  foo: bar;
 }
