@@ -53,6 +53,9 @@ html {
   }
 }
 ```
+That `calc` expression is equivelant to 
+
+`min-size + (max-size - min-size) * ((100vw - min-width) / (max-width - min-width))`
 
 --
 
