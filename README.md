@@ -15,6 +15,7 @@ html {
 ```
 
 ###### Specify parameters:
+All units must be in `px` (`rem` support coming soon).
 ```css
 html {
   font-size: responsive 12px 21px; /* min-size, max-size */
@@ -23,6 +24,7 @@ html {
 ```
 
 ###### Expanded syntax:
+All units must be in `px` (`rem` support coming soon).
 ```css
 html {
   font-size: responsive;
