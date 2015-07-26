@@ -1,0 +1,19 @@
+html {
+  font-size: 10px;
+}
+
+.foo {
+  font-size: calc(1.2rem + 9 * ((100vw - 420px) / 860));
+}
+
+@media screen and (max-width: 420px) {
+  .foo {
+    font-size: 1.2rem;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .foo {
+    font-size: 2.1rem;
+  }
+}

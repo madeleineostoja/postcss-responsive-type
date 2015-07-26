@@ -44,4 +44,8 @@ describe('postcss-responsive-type', function () {
    test('fallback', {}, done);
   });
 
+  it('works with rem units', function (done) {
+   test('rem', {}, done);
+  });
+
 });

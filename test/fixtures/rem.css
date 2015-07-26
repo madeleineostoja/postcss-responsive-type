@@ -1,0 +1,7 @@
+html {
+  font-size: 10px;
+}
+
+.foo {
+  font-size: responsive 1.2rem 2.1rem;
+}
