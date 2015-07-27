@@ -102,6 +102,8 @@ postcss([ require('postcss-responsive-type') ])
 
 See [PostCSS] docs for examples for your environment.
 
+You can use `postcss-responsive-type` with Stylus through [PostStylus][poststylus].
+
 --
 
 ### License
@@ -120,3 +122,4 @@ MIT © [Sean King](https://twitter.com/seaneking)
 [calc-polyfill]: https://github.com/closingtag/calc-polyfill
 [respond]: https://github.com/scottjehl/Respond
 [vminpoly]: https://github.com/saabi/vminpoly
+[poststylus]: https://github.com/seaneking/poststylus
