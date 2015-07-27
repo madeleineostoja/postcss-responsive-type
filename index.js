@@ -61,32 +61,32 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
   /**
    * Build new responsive type rules
    * @param  {object} rule     old CSS rule
-   * @param  {object} newRules object to store new CSS rules
    * @return {object}          object of new CSS rules
    */
-  var buildRules = function(rule, newRules) {
+  var buildRules = function(rule) {
+    var rules = {};
 
     // Build the responsive decleration
     var sizeDiff = parseFloat(params.maxSize) - parseFloat(params.minSize),
         widthDiff = parseFloat(params.maxWidth) - parseFloat(params.minWidth);
 
-    newRules.responsive = 'calc(' + params.minSize + ' + ' + sizeDiff.toString() + ' * ((100vw - ' + params.minWidth + ') / ' + widthDiff.toString() + '))';
+    rules.responsive = 'calc(' + params.minSize + ' + ' + sizeDiff.toString() + ' * ((100vw - ' + params.minWidth + ') / ' + widthDiff.toString() + '))';
 
     // Build the media queries
-    newRules.minMedia = postcss.atRule({
+    rules.minMedia = postcss.atRule({
       name: 'media',
       params: 'screen and (max-width: ' + params.minWidth + ')',
       before: '\n'
     });
 
-    newRules.maxMedia = postcss.atRule({
+    rules.maxMedia = postcss.atRule({
       name: 'media',
       params: 'screen and (min-width: ' + params.maxWidth + ')',
       before: '\n'
     });
 
     // Add the required content to new media queries
-    newRules.minMedia.append({
+    rules.minMedia.append({
         selector: rule.selector
     }).eachRule(function(selector){
       selector.append({
@@ -95,7 +95,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
       });
     });
 
-    newRules.maxMedia.append({
+    rules.maxMedia.append({
       selector: rule.selector
     }).eachRule(function(selector){
       selector.append({
@@ -104,7 +104,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
       });
     });
 
-    return newRules;
+    return rules;
   };
 
   // Do it!
@@ -112,7 +112,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
     css.eachRule(function(rule){
 
       var thisRule,
-          newRules = {};
+          newRules;
 
       rule.eachDecl('font-size', function(decl){
 
@@ -125,7 +125,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
 
         fetchParams(thisRule);
 
-        buildRules(thisRule, newRules);
+        newRules = buildRules(thisRule);
 
         // Insert the base responsive decleration
         if (decl.value.indexOf('responsive') > -1) {
