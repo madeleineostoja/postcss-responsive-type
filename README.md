@@ -1,9 +1,11 @@
-# postcss-responsive-type
+# PostCSS Responsive Type
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 
-[PostCSS] plugin for automagical responsive typography. Adds a `responsive` property to `font-size` that generates complex `calc` and `vw` based font sizes.
+[PostCSS][PostCSS] plugin for automagical responsive typography. Adds a `responsive` property to `font-size` that generates complex `calc` and `vw` based font sizes.
 
 Inspired by [Typographic][typographic].
+
+Part of [Rucksack - CSS Superpowers](http://simplaio.github.io/rucksack).
 
 ![Responsive Type Demo][demo]
 
@@ -53,7 +55,7 @@ html {
   }
 }
 ```
-That `calc` expression is equivelant to 
+That `calc` expression is equivelant to
 
 `min-size + (max-size - min-size) * ((100vw - min-width) / (max-width - min-width))`
 
@@ -100,7 +102,7 @@ Alternatively, if you feel the need to fully support legacy browsers or Opera Mi
 postcss([ require('postcss-responsive-type') ])
 ```
 
-See [PostCSS] docs for examples for your environment.
+See [PostCSS][PostCSS] docs for examples for your environment.
 
 You can use `postcss-responsive-type` with Stylus through [PostStylus][poststylus].
 
