@@ -1,6 +1,6 @@
 {
   "name": "postcss-responsive-type",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "PostCSS plugin that adds responsive magic to font-size",
   "keywords": [
     "postcss",
