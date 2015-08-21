@@ -26,25 +26,33 @@ var test = function (fixture, opts, done) {
 
 };
 
-describe('postcss-responsive-type', function () {
+describe('postcss-responsive-type', function() {
 
-  it('builds responsive type with defaults', function (done) {
+  it('builds responsive type with defaults', function(done) {
    test('default', {}, done);
   });
 
-  it('applies custom parameters', function (done) {
+  it('applies custom parameters', function(done) {
    test('custom', {}, done);
   });
 
-  it('works with shorthand properties', function (done) {
+  it('works with shorthand properties', function(done) {
    test('shorthand', {}, done);
   });
 
-  it('doesn\'t kill fallbacks/duplicate properties', function (done) {
+  it('handles mixed units', function(done) {
+    test('mixed', {}, done);
+  });
+
+  it('properly calculates rem from root font size', function(done) {
+    test('root', {}, done);
+  });
+
+  it('doesn\'t kill fallbacks/duplicate properties', function(done) {
    test('fallback', {}, done);
   });
 
-  it('sanitizes inputs', function (done) {
+  it('sanitizes inputs', function(done) {
    test('formatting', {}, done);
   });
 

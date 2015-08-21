@@ -1,0 +1,29 @@
+.foo {
+  font-size: calc((1rem - 26.25rem * 0.037209302325581395) + 3.7209302325581395vw);
+}
+@media screen and (max-width: 420px) {
+  .foo {
+    font-size: 1rem;
+  }
+}
+@media screen and (min-width: 1280px) {
+  .foo {
+    font-size: 3rem;
+  }
+}
+
+.bar {
+  font-size: calc((1rem - 20em * 0.05) + 5vw);
+}
+
+@media screen and (max-width: 20em) {
+  .bar {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (min-width: 60em) {
+  .bar {
+    font-size: 3rem;
+  }
+}

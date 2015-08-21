@@ -20,6 +20,8 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
     maxWidth: 'upper-font-range'
   };
 
+  var rootSize = '16px';
+
   /**
    * Fetch plugin parameters from css rules
    * @param  {object} rule CSS rule to parse
@@ -30,8 +32,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
     rule.eachDecl('font-size', function(decl){
 
       if (decl.value.indexOf('responsive') > -1) {
-        var vals = decl.value.match(/([0-9]+\w*)/g);
-
+        var vals = decl.value.match(/[.?\d]+\w+/g);
         if (vals){
           params.minSize = vals[0];
           params.maxSize = vals[1];
@@ -59,16 +60,66 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
   };
 
   /**
+   * Px -> Rem converter
+   * @param  {String} px pixel value
+   * @return {String}    rem value
+   */
+  var pxToRem = function(px) {
+    return parseFloat(px) / parseFloat(rootSize) + 'rem';
+  };
+
+  /**
+   * Extract the unit from a string
+   * @param  {String} value value to extract unit from
+   * @return {String}       unit
+   */
+  var getUnit = function(value) {
+    return value.match(/px|rem|em/).toString();
+  };
+
+  /**
    * Build new responsive type rules
    * @param  {object} rule     old CSS rule
    * @return {object}          object of new CSS rules
    */
-  var buildRules = function(rule) {
-    var rules = {};
+  var buildRules = function(rule, result) {
+    var rules = {},
+        minSize,
+        maxSize,
+        minWidth,
+        maxWidth;
+
+    minSize = params.minSize;
+    maxSize = params.maxSize;
+
+    var sizeUnit = getUnit(params.minSize),
+        maxSizeUnit = getUnit(params.maxSize),
+        widthUnit = getUnit(params.minWidth),
+        maxWidthUnit = getUnit(params.maxWidth);
+
+    if (sizeUnit !== maxSizeUnit && widthUnit !== maxWidthUnit) {
+      rule.warn(result, 'min/max unit types must match');
+    }
+
+    if (sizeUnit === 'rem' && widthUnit === 'px') {
+
+      minWidth = pxToRem(params.minWidth);
+      maxWidth = pxToRem(params.maxWidth);
+
+    } else if (sizeUnit === widthUnit || sizeUnit === 'rem' && widthUnit === 'em') {
+
+      minWidth = params.minWidth;
+      maxWidth = params.maxWidth;
+
+    } else {
+
+      rule.warn(result, 'this combination of units is not supported');
+
+    }
 
     // Build the responsive type decleration
-    var sizeDiff = (parseFloat(params.maxSize) - parseFloat(params.minSize)) / (parseFloat(params.maxWidth) - parseFloat(params.minWidth));
-    rules.responsive = 'calc((' + params.minSize + ' - ' + params.minWidth + ' * ' + sizeDiff + ') + ' + sizeDiff * 100 + 'vw)';
+    var sizeDiff = (parseFloat(maxSize) - parseFloat(minSize)) / (parseFloat(maxWidth) - parseFloat(minWidth));
+    rules.responsive = 'calc((' + minSize + ' - ' + minWidth + ' * ' + sizeDiff + ') + ' + sizeDiff * 100 + 'vw)';
 
     // Build the media queries
     rules.minMedia = postcss.atRule({
@@ -106,11 +157,20 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
   };
 
   // Do it!
-  return function (css) {
+  return function (css, result) {
     css.eachRule(function(rule){
 
       var thisRule,
           newRules;
+
+      // Check root font-size (for rem units)
+      if (rule.selector.indexOf('html') > -1){
+        rule.eachDecl('font-size', function(decl){
+          if (decl.value.indexOf('px') > -1){
+            rootSize = decl.value;
+          }
+        });
+      }
 
       rule.eachDecl('font-size', function(decl){
 
@@ -123,7 +183,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
 
         fetchParams(thisRule);
 
-        newRules = buildRules(thisRule);
+        newRules = buildRules(thisRule, result);
 
         // Insert the base responsive decleration
         if (decl.value.indexOf('responsive') > -1) {

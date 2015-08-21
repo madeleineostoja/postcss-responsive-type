@@ -1,0 +1,21 @@
+html {
+  font-size: 10px;
+}
+
+.foo {
+  font-size: calc((1.6rem - 42rem * 0.037209302325581395) + 3.7209302325581395vw);
+}
+
+@media screen and (max-width: 420px) {
+
+  .foo {
+    font-size: 1.6rem;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+
+  .foo {
+    font-size: 4.8rem;
+  }
+}
