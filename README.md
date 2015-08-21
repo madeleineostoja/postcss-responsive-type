@@ -17,7 +17,7 @@ html {
 ```
 
 ###### Specify parameters:
-All units must be in `px` (`rem` support coming soon).
+Units can be in px, rem, or em.
 ```css
 html {
   font-size: responsive 12px 21px; /* min-size, max-size */
@@ -26,7 +26,6 @@ html {
 ```
 
 ###### Expanded syntax:
-All units must be in `px` (`rem` support coming soon).
 ```css
 html {
   font-size: responsive;
@@ -40,7 +39,7 @@ html {
 ###### What it outputs:
 ```css
 html {
-  font-size: calc(12px + 9 * ((100vw - 420px) / 860));
+  font-size: calc((12px - 420px * 0.01) + 1.05vw);
 }
 
 @media screen and (max-width: 420px) {
@@ -55,9 +54,13 @@ html {
   }
 }
 ```
-That `calc` expression is equivelant to
+That `calc` expression is equivalent to
 
-`min-size + (max-size - min-size) * ((100vw - min-width) / (max-width - min-width))`
+```
+(min-size - min-width * (max-size - min-size) / (max-width - min-width)) + ((max-size - min-size) / (max-width - min-width) * 100)vw
+```
+
+Whoa what a mouthful!
 
 --
 
