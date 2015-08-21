@@ -1,6 +1,6 @@
 .foo {
   font-size: 16px;
-  font-size: calc(12px + 9 * ((100vw - 420px) / 860));
+  font-size: calc((12px - 420px * 0.010465116279069767) + 1.0465116279069768vw);
 }
 @media screen and (max-width: 420px) {
   .foo {
