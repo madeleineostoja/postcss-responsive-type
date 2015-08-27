@@ -1,5 +1,5 @@
 .foo {
-  font-size: calc((1rem - 26.25rem * 0.037209302325581395) + 3.7209302325581395vw);
+  font-size: calc(1rem + 2 * ( (100vw - 26.25rem) / 53.75));
 }
 @media screen and (max-width: 420px) {
   .foo {
@@ -13,7 +13,7 @@
 }
 
 .bar {
-  font-size: calc((1rem - 20em * 0.05) + 5vw);
+  font-size: calc(1rem + 2 * ( (100vw - 20em) / 40));
 }
 
 @media screen and (max-width: 20em) {
