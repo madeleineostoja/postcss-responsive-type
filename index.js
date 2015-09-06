@@ -29,7 +29,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
   var fetchParams = function(rule){
 
     // Fetch params from shorthand font-size
-    rule.eachDecl('font-size', function(decl){
+    rule.walkDecls('font-size', function(decl){
 
       if (decl.value.indexOf('responsive') > -1) {
         var vals = decl.value.match(/[.?\d]+\w+/g);
@@ -42,18 +42,18 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
     });
 
     // Fetch params from shorthand font-range
-    rule.eachDecl('font-range', function(decl){
+    rule.walkDecls('font-range', function(decl){
       var vals = decl.value.split(/\s+/);
       params.minWidth = vals[0];
       params.maxWidth = vals[1];
-      decl.removeSelf();
+      decl.remove();
     });
 
     // Fetch parameters from expanded properties
     Object.keys(paramDecls).forEach(function(param){
-      rule.eachDecl(paramDecls[param], function(decl){
+      rule.walkDecls(paramDecls[param], function(decl){
         params[param] = decl.value.trim();
-        decl.removeSelf();
+        decl.remove();
       });
     });
 
@@ -125,20 +125,18 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
     // Build the media queries
     rules.minMedia = postcss.atRule({
       name: 'media',
-      params: 'screen and (max-width: ' + params.minWidth + ')',
-      before: '\n'
+      params: 'screen and (max-width: ' + params.minWidth + ')'
     });
 
     rules.maxMedia = postcss.atRule({
       name: 'media',
-      params: 'screen and (min-width: ' + params.maxWidth + ')',
-      before: '\n'
+      params: 'screen and (min-width: ' + params.maxWidth + ')'
     });
 
     // Add the required content to new media queries
     rules.minMedia.append({
         selector: rule.selector
-    }).eachRule(function(selector){
+    }).walkRules(function(selector){
       selector.append({
         prop: 'font-size',
         value: params.minSize
@@ -147,7 +145,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
 
     rules.maxMedia.append({
       selector: rule.selector
-    }).eachRule(function(selector){
+    }).walkRules(function(selector){
       selector.append({
         prop: 'font-size',
         value: params.maxSize
@@ -159,21 +157,21 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
 
   // Do it!
   return function (css, result) {
-    css.eachRule(function(rule){
+    css.walkRules(function(rule){
 
       var thisRule,
           newRules;
 
       // Check root font-size (for rem units)
       if (rule.selector.indexOf('html') > -1){
-        rule.eachDecl('font-size', function(decl){
+        rule.walkDecls('font-size', function(decl){
           if (decl.value.indexOf('px') > -1){
             rootSize = decl.value;
           }
         });
       }
 
-      rule.eachDecl('font-size', function(decl){
+      rule.walkDecls('font-size', function(decl){
 
         // If decl doesn't contain responsve keyword, exit
         if (decl.value.indexOf('responsive') === -1) {

@@ -1,12 +1,16 @@
 .foo {
   font-size: calc(1rem + 2 * ( (100vw - 26.25rem) / 53.75));
 }
+
 @media screen and (max-width: 420px) {
+
   .foo {
     font-size: 1rem;
   }
 }
+
 @media screen and (min-width: 1280px) {
+
   .foo {
     font-size: 3rem;
   }
@@ -17,12 +21,14 @@
 }
 
 @media screen and (max-width: 20em) {
+
   .bar {
     font-size: 1rem;
   }
 }
 
 @media screen and (min-width: 60em) {
+
   .bar {
     font-size: 3rem;
   }
