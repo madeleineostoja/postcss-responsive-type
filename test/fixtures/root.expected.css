@@ -6,16 +6,16 @@ html {
   font-size: calc(1.6rem + 3.1999999999999997 * ( (100vw - 42rem) / 86));
 }
 
-@media screen and (max-width: 420px) {
-
-  .foo {
-    font-size: 1.6rem;
-  }
-}
-
 @media screen and (min-width: 1280px) {
 
   .foo {
     font-size: 4.8rem;
+  }
+}
+
+@media screen and (max-width: 420px) {
+
+  .foo {
+    font-size: 1.6rem;
   }
 }

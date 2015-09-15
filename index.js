@@ -191,7 +191,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
 
         // Insert the media queries
         thisRule.parent.insertAfter(thisRule, newRules.minMedia);
-        thisRule.parent.insertAfter(newRules.minMedia, newRules.maxMedia);
+        thisRule.parent.insertAfter(thisRule, newRules.maxMedia);
 
       });
     });
