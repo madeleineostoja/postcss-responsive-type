@@ -57,7 +57,7 @@ html {
 That `calc` expression is equivalent to
 
 ```
-min-size + (min-size - max-size) * ( (100vw - min-width) / ( max-width - min-width) )
+min-size + (max-size - min-size) * ( (100vw - min-width) / ( max-width - min-width) )
 ```
 
 --
