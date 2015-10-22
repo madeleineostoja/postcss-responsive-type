@@ -100,7 +100,7 @@ Alternatively, if you feel the need to fully support legacy browsers or Opera Mi
 ### Usage
 
 ```js
-postcss([ require('postcss-responsive-type') ])
+postcss([ require('postcss-responsive-type')() ])
 ```
 
 See [PostCSS][PostCSS] docs for examples for your environment.
