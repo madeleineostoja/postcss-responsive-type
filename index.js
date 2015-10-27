@@ -119,8 +119,10 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
 
     // Build the responsive type decleration
     var sizeDiff = parseFloat(maxSize) - parseFloat(minSize),
-        rangeDiff = parseFloat(maxWidth) - parseFloat(minWidth);
-    rules.responsive = 'calc(' + minSize + ' + ' + sizeDiff + ' * ( (100vw - ' + minWidth + ') / ' + rangeDiff + '))';
+        rangeDiff = (parseFloat(maxWidth) - parseFloat(minWidth)) * (16 / parseFloat(rootSize)),
+        correctedMinWidth = parseFloat(minWidth) * (16 / parseFloat(rootSize));
+
+    rules.responsive = 'calc(' + minSize + ' + ' + sizeDiff + ' * ( (100vw - ' + correctedMinWidth + 'em) / ' + rangeDiff + '))';
 
     // Build the media queries
     rules.minMedia = postcss.atRule({
