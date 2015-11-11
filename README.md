@@ -3,7 +3,7 @@
 
 [PostCSS][PostCSS] plugin for automagical responsive typography. Adds a `responsive` property to `font-size` that generates complex `calc` and `vw` based font sizes.
 
-Inspired by [Typographic][typographic].
+Inspired by [this post][post] from [@MikeRiethmuller][mike], and [Typographic][typographic].
 
 Part of [Rucksack - CSS Superpowers](http://simplaio.github.io/rucksack).
 
@@ -122,6 +122,8 @@ MIT © [Sean King](https://twitter.com/seaneking)
 [PostCSS]: https://github.com/postcss/postcss
 [demo]: /demo.gif?raw=true
 [typographic]: https://github.com/corysimmons/typographic
+[post]: http://madebymike.com.au/writing/precise-control-responsive-typography/
+[mike]: https://twitter.com/MikeRiethmuller
 [calc-polyfill]: https://github.com/closingtag/calc-polyfill
 [respond]: https://github.com/scottjehl/Respond
 [vminpoly]: https://github.com/saabi/vminpoly
