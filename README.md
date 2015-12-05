@@ -39,7 +39,7 @@ html {
 ###### What it outputs:
 ```css
 html {
-  font-size: calc(12px + 9 * ( (100vw - 420px) / 860));
+  font-size: calc(12px + 9 * ((100vw - 420px) / 860));
 }
 
 @media screen and (max-width: 420px) {
