@@ -1,16 +1,19 @@
 'use strict';
 
 var postcss = require('postcss');
+var assign = require('object-assign');
 
-module.exports = postcss.plugin('postcss-responsive-type', function () {
 
-  // Default parameters
-  var params = {
+
+module.exports = postcss.plugin('postcss-responsive-type', function (options) {
+  options = options || {};
+
+  var params = assign({
     minSize: '12px',
     maxSize: '21px',
     minWidth: '420px',
     maxWidth: '1280px'
-  };
+  }, options || {});
 
   // Map expanded declarations to params
   var paramDecls = {
@@ -20,7 +23,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
     maxWidth: 'upper-font-range'
   };
 
-  var rootSize = '16px';
+  var rootSize = options.rootSize || '16px';
 
   /**
    * Fetch plugin parameters from css rules

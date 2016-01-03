@@ -26,7 +26,8 @@
   },
   "homepage": "https://github.com/seaneking/postcss-responsive-type",
   "dependencies": {
-    "postcss": "^5.0.0"
+    "postcss": "^5.0.0",
+    "object-assign": "^4.0.1"
   },
   "devDependencies": {
     "gulp-eslint": "^0.12.0",
