@@ -32,7 +32,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
     rule.walkDecls('font-size', function(decl){
 
       if (decl.value.indexOf('responsive') > -1) {
-        var vals = decl.value.match(/[.?\d]+\w+/g);
+        var vals = decl.value.match(/\d*\.?\d+\w+/g);
         if (vals){
           params.minSize = vals[0];
           params.maxSize = vals[1];
