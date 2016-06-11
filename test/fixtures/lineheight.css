@@ -1,0 +1,4 @@
+.foo {
+  lineheight: responsive 10px 30px;
+  lineheight-range: 300px 900px;
+}
