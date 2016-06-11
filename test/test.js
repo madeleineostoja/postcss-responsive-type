@@ -77,7 +77,7 @@ describe('postcss-responsive-type', function() {
    test('formatting', {}, [], done);
   });
 
-  it('sets responsive lineheight', function(done) {
+  it('sets responsive line-height', function(done) {
    test('lineheight', {}, [], done);
   });
 

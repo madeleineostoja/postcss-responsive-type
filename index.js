@@ -13,7 +13,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
       minWidth: '420px',
       maxWidth: '1280px'
     },
-    'lineheight': {
+    'line-height': {
       minSize: '1rem',
       maxSize: '2rem',
       minWidth: '420px',
@@ -24,7 +24,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
   // Map supported params to their range declarations
   var paramRangeDecl = {
     'font-size': 'font-range',
-    'lineheight': 'lineheight-range'
+    'line-height': 'line-height-range'
   };
 
   // Map expanded declarations to params
@@ -35,11 +35,11 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
       minWidth: 'lower-font-range',
       maxWidth: 'upper-font-range'
     },
-    'lineheight': {
-      minSize: 'min-lineheight',
-      maxSize: 'max-lineheight',
-      minWidth: 'lower-lineheight-range',
-      maxWidth: 'upper-lineheight-range'
+    'line-height': {
+      minSize: 'min-line-height',
+      maxSize: 'max-line-height',
+      minWidth: 'lower-line-height-range',
+      maxWidth: 'upper-line-height-range'
     }
   };
 
@@ -73,13 +73,13 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
   var fetchParams = function(rule, declName){
     var params = R.clone(defaultParams[declName]);
 
-    // Fetch params from shorthand declName, i.e., font-size or lineheight, etc
+    // Fetch params from shorthand declName, i.e., font-size or line-height, etc
     fetchResponsiveSizes(rule, declName, function(minSize, maxSize) {
       params.minSize = minSize;
       params.maxSize = maxSize;
     });
 
-    // Fetch params from shorthand font-range or lineheight-range
+    // Fetch params from shorthand font-range or line-height-range
     fetchRangeSizes(rule, paramRangeDecl[declName], function(minSize, maxSize){
       params.minWidth = minSize;
       params.maxWidth = maxSize;
@@ -218,7 +218,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
         });
       }
 
-      rule.walkDecls(/^(font-size|lineheight)$/, function(decl){
+      rule.walkDecls(/^(font-size|line-height)$/, function(decl){
 
         // If decl doesn't contain responsve keyword, exit
         if (decl.value.indexOf('responsive') === -1) {

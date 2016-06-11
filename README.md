@@ -35,19 +35,19 @@ html {
   upper-font-range: 1280px;
 }
 ```
-###### Responsive lineheight:
+###### Responsive line-height:
 Works the same as `font-size`:
 ```css
 html {
-  lineheight: responsive 1rem 2rem;
-  lineheight-range: 420px 1280px;
+  line-height: responsive 1rem 2rem;
+  line-height-range: 420px 1280px;
 
   /* or extended syntax: */
-  lineheight: responsive;
-  min-lineheight-size: 1rem;
-  max-lineheight-size: 2rem;
-  lower-lineheight-range: 420px;
-  upper-lineheight-range: 1280px;
+  line-height: responsive;
+  min-line-height-size: 1rem;
+  max-line-height-size: 2rem;
+  lower-line-height-range: 420px;
+  upper-line-height-range: 1280px;
 }
 ```
 
