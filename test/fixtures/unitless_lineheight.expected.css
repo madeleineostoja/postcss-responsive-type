@@ -1,0 +1,13 @@
+.foo {
+  line-height: calc(1.5 + 0.5 * ((100vw - undefined) / NaN));
+}
+@media screen and (min-width: 1280px) {
+  .foo {
+    line-height: 2;
+  }
+}
+@media screen and (max-width: 420px) {
+  .foo {
+    line-height: 1.5;
+  }
+}

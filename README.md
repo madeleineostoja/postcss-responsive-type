@@ -51,6 +51,8 @@ html {
 }
 ```
 
+Unitless line heights are not supported
+
 ###### What it outputs:
 ```css
 html {

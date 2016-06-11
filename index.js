@@ -49,7 +49,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
     rule.walkDecls(declName, function(decl){
 
       if (decl.value.indexOf('responsive') > -1) {
-        var vals = decl.value.match(/\d*\.?\d+\w+/g);
+        var vals = decl.value.match(/\d*\.?\d+(?:\w+)?/g);
         if (vals) {
           cb(vals[0], vals[1]);
         }
@@ -140,8 +140,8 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
         widthUnit = getUnit(params.minWidth),
         maxWidthUnit = getUnit(params.maxWidth);
 
-    if (declName === 'font-size' && sizeUnit === null) {
-      rule.warn(result, 'font-size cannot have unitless values');
+    if (sizeUnit === null) {
+      rule.warn(result, 'sizes with unitless values are not supported');
     }
 
     if (sizeUnit !== maxSizeUnit && widthUnit !== maxWidthUnit) {

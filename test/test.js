@@ -81,4 +81,18 @@ describe('postcss-responsive-type', function() {
    test('lineheight', {}, [], done);
   });
 
+  it('warns about responsive unitless line-height', function(done) {
+   test('unitless_lineheight', {}, [{
+      type: 'warning',
+      text: 'sizes with unitless values are not supported',
+      line: 1,
+      column: 1
+    }, {
+      type: 'warning',
+      text: 'this combination of units is not supported',
+      line: 1,
+      column: 1
+    }], done);
+  });
+
 });
