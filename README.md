@@ -17,7 +17,7 @@ html {
 ```
 
 ###### Specify parameters:
-Units can be in px, rem, or em.
+Units can be in px, rem, or em. When using em units, be sure that the `font-range` is specified in em as well.
 ```css
 html {
   font-size: responsive 12px 21px; /* min-size, max-size */

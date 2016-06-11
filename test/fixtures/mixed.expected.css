@@ -33,3 +33,21 @@
     font-size: 1rem;
   }
 }
+
+.baz {
+  font-size: calc(1em + 2 * ((100vw - undefined) / NaN));
+}
+
+@media screen and (min-width: 1280px) {
+
+  .baz {
+    font-size: 3em;
+  }
+}
+
+@media screen and (max-width: 420px) {
+
+  .baz {
+    font-size: 1em;
+  }
+}
