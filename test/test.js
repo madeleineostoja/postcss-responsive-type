@@ -95,4 +95,8 @@ describe('postcss-responsive-type', function() {
     }], done);
   });
 
+  it('sets responsive letterspacing', function(done) {
+   test('letterspacing', {}, [], done);
+  });
+
 });

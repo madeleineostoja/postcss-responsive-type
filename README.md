@@ -1,7 +1,7 @@
 # PostCSS Responsive Type
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 
-[PostCSS][PostCSS] plugin for automagical responsive typography. Adds a `responsive` property to `font-size` that generates complex `calc` and `vw` based font sizes.
+[PostCSS][PostCSS] plugin for automagical responsive typography. Adds a `responsive` property to `font-size`, `line-height` and `letter-spacing` that generates complex `calc` and `vw` based font sizes.
 
 Inspired by [this post][post] from [@MikeRiethmuller][mike], and [Typographic][typographic].
 
@@ -35,12 +35,15 @@ html {
   upper-font-range: 1280px;
 }
 ```
-###### Responsive line-height:
+###### Responsive line-height and letter-spacing:
 Works the same as `font-size`:
 ```css
 html {
   line-height: responsive 1rem 2rem;
   line-height-range: 420px 1280px;
+
+  letter-spacing: responsive 1rem 2rem;
+  letter-spacing-range: 420px 1280px;
 
   /* or extended syntax: */
   line-height: responsive;
@@ -48,10 +51,16 @@ html {
   max-line-height-size: 2rem;
   lower-line-height-range: 420px;
   upper-line-height-range: 1280px;
+
+  letter-spacing: responsive;
+  min-letter-spacing-size: 1rem;
+  max-letter-spacing-size: 2rem;
+  lower-letter-spacing-range: 420px;
+  upper-letter-spacing-range: 1280px;
 }
 ```
 
-Unitless line heights are not supported
+Unitless line heights or letter spacing are not supported
 
 ###### What it outputs:
 ```css

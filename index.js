@@ -18,13 +18,20 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
       maxSize: '2rem',
       minWidth: '420px',
       maxWidth: '1280px'
+    },
+    'letter-spacing': {
+      minSize: '1rem',
+      maxSize: '2rem',
+      minWidth: '420px',
+      maxWidth: '1280px'
     }
   };
 
   // Map supported params to their range declarations
   var paramRangeDecl = {
     'font-size': 'font-range',
-    'line-height': 'line-height-range'
+    'line-height': 'line-height-range',
+    'letter-spacing': 'letter-spacing-range'
   };
 
   // Map expanded declarations to params
@@ -40,6 +47,12 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
       maxSize: 'max-line-height',
       minWidth: 'lower-line-height-range',
       maxWidth: 'upper-line-height-range'
+    },
+    'letter-spacing': {
+      minSize: 'min-letter-spacing',
+      maxSize: 'max-letter-spacing',
+      minWidth: 'lower-letter-spacing-range',
+      maxWidth: 'upper-letter-spacing-range'
     }
   };
 
@@ -218,7 +231,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
         });
       }
 
-      rule.walkDecls(/^(font-size|line-height)$/, function(decl){
+      rule.walkDecls(/^(font-size|line-height|letter-spacing)$/, function(decl){
 
         // If decl doesn't contain responsve keyword, exit
         if (decl.value.indexOf('responsive') === -1) {
