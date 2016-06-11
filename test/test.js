@@ -7,7 +7,13 @@ var postcss = require('postcss'),
     path = require('path'),
     plugin = require('../');
 
-var test = function (fixture, opts, done) {
+var compareWarnings = function(warnings, expected) {
+  warnings.forEach(function (warning, i) {
+    expect(warning).to.contain(expected[i]);
+  });
+};
+
+var test = function (fixture, opts, warnings, done) {
   var input = fixture + '.css',
       expected = fixture + '.expected.css';
 
@@ -18,42 +24,57 @@ var test = function (fixture, opts, done) {
     .process(input)
     .then(function (result) {
       expect(result.css).to.eql(expected);
-      expect(result.warnings()).to.be.empty;
-    done();
-  }).catch(function (error) {
-    done(error);
-  });
+
+      if (warnings.length > 0) {
+        compareWarnings(result.warnings(), warnings);
+      } else {
+        expect(result.warnings()).to.be.empty;
+      }
+
+      done();
+    }).catch(function (error) {
+      done(error);
+    });
 
 };
 
 describe('postcss-responsive-type', function() {
 
   it('builds responsive type with defaults', function(done) {
-   test('default', {}, done);
+   test('default', {}, [], done);
   });
 
   it('applies custom parameters', function(done) {
-   test('custom', {}, done);
+   test('custom', {}, [], done);
   });
 
   it('works with shorthand properties', function(done) {
-   test('shorthand', {}, done);
+   test('shorthand', {}, [], done);
   });
 
   it('handles mixed units', function(done) {
-    test('mixed', {}, done);
+    test('mixed', {}, [{
+      type: 'warning',
+      text: 'this combination of units is not supported',
+      line: 11,
+      column: 1
+    }], done);
+  });
+
+  it('handles em units', function(done) {
+    test('em', {}, [], done);
   });
 
   it('properly calculates rem from root font size', function(done) {
-    test('root', {}, done);
+    test('root', {}, [], done);
   });
 
   it('doesn\'t kill fallbacks/duplicate properties', function(done) {
-   test('fallback', {}, done);
+   test('fallback', {}, [], done);
   });
 
   it('sanitizes inputs', function(done) {
-   test('formatting', {}, done);
+   test('formatting', {}, [], done);
   });
 
 });
