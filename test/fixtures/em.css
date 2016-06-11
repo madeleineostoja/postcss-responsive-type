@@ -1,0 +1,4 @@
+.foo {
+  font-size: responsive 1em 3em;
+  font-range: 20em 45em;
+}

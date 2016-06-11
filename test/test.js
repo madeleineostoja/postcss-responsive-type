@@ -44,6 +44,10 @@ describe('postcss-responsive-type', function() {
     test('mixed', {}, done);
   });
 
+  it('handles em units', function(done) {
+    test('em', {}, done);
+  });
+
   it('properly calculates rem from root font size', function(done) {
     test('root', {}, done);
   });
