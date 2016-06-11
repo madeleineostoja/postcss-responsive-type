@@ -1,11 +1,12 @@
 'use strict';
 
 var postcss = require('postcss');
+var R = require('ramda');
 
 module.exports = postcss.plugin('postcss-responsive-type', function () {
 
   // Default parameters
-  var params = {
+  var defaultParams = {
     'font-size': {
       minSize: '12px',
       maxSize: '21px',
@@ -70,27 +71,30 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
    * @param  {object} rule CSS rule to parse
    */
   var fetchParams = function(rule, declName){
+    var params = R.clone(defaultParams[declName]);
 
     // Fetch params from shorthand declName, i.e., font-size or lineheight, etc
     fetchResponsiveSizes(rule, declName, function(minSize, maxSize) {
-      params[declName].minSize = minSize;
-      params[declName].maxSize = maxSize;
+      params.minSize = minSize;
+      params.maxSize = maxSize;
     });
 
     // Fetch params from shorthand font-range or lineheight-range
     fetchRangeSizes(rule, paramRangeDecl[declName], function(minSize, maxSize){
-      params[declName].minWidth = minSize;
-      params[declName].maxWidth = maxSize;
+      params.minWidth = minSize;
+      params.maxWidth = maxSize;
     });
 
     // Fetch parameters from expanded properties
-    Object.keys(paramDecls[declName]).forEach(function(param){
-      rule.walkDecls(paramDecls[declName][param], function(decl){
-        params[declName][param] = decl.value.trim();
+    var rangeDecl = paramDecls[declName];
+    Object.keys(rangeDecl).forEach(function(param){
+      rule.walkDecls(rangeDecl[param], function(decl){
+        params[param] = decl.value.trim();
         decl.remove();
       });
     });
 
+    return params;
   };
 
   /**
@@ -121,22 +125,20 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
    * @param  {object} rule     old CSS rule
    * @return {object}          object of new CSS rules
    */
-  var buildRules = function(rule, declName, result) {
+  var buildRules = function(rule, declName, params, result) {
     var rules = {},
         minSize,
         maxSize,
         minWidth,
         maxWidth;
 
-    var currParams = params[declName]; // font-size or lineheight params
+    minSize = params.minSize;
+    maxSize = params.maxSize;
 
-    minSize = currParams.minSize;
-    maxSize = currParams.maxSize;
-
-    var sizeUnit = getUnit(currParams.minSize),
-        maxSizeUnit = getUnit(currParams.maxSize),
-        widthUnit = getUnit(currParams.minWidth),
-        maxWidthUnit = getUnit(currParams.maxWidth);
+    var sizeUnit = getUnit(params.minSize),
+        maxSizeUnit = getUnit(params.maxSize),
+        widthUnit = getUnit(params.minWidth),
+        maxWidthUnit = getUnit(params.maxWidth);
 
     if (declName === 'font-size' && sizeUnit === null) {
       rule.warn(result, 'font-size cannot have unitless values');
@@ -148,13 +150,13 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
 
     if (sizeUnit === 'rem' && widthUnit === 'px') {
 
-      minWidth = pxToRem(currParams.minWidth);
-      maxWidth = pxToRem(currParams.maxWidth);
+      minWidth = pxToRem(params.minWidth);
+      maxWidth = pxToRem(params.maxWidth);
 
     } else if (sizeUnit === widthUnit || sizeUnit === 'rem' && widthUnit === 'em') {
 
-      minWidth = currParams.minWidth;
-      maxWidth = currParams.maxWidth;
+      minWidth = params.minWidth;
+      maxWidth = params.maxWidth;
 
     } else {
 
@@ -170,12 +172,12 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
     // Build the media queries
     rules.minMedia = postcss.atRule({
       name: 'media',
-      params: 'screen and (max-width: ' + currParams.minWidth + ')'
+      params: 'screen and (max-width: ' + params.minWidth + ')'
     });
 
     rules.maxMedia = postcss.atRule({
       name: 'media',
-      params: 'screen and (min-width: ' + currParams.maxWidth + ')'
+      params: 'screen and (min-width: ' + params.maxWidth + ')'
     });
 
     // Add the required content to new media queries
@@ -184,7 +186,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
     }).walkRules(function(selector){
       selector.append({
         prop: declName,
-        value: currParams.minSize
+        value: params.minSize
       });
     });
 
@@ -193,7 +195,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
     }).walkRules(function(selector){
       selector.append({
         prop: declName,
-        value: currParams.maxSize
+        value: params.maxSize
       });
     });
 
@@ -225,9 +227,9 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
 
         thisRule = decl.parent;
 
-        fetchParams(thisRule, decl.prop);
+        var params = fetchParams(thisRule, decl.prop);
 
-        newRules = buildRules(thisRule, decl.prop, result);
+        newRules = buildRules(thisRule, decl.prop, params, result);
 
         // Insert the base responsive decleration
         if (decl.value.indexOf('responsive') > -1) {
