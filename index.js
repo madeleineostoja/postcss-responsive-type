@@ -1,7 +1,6 @@
 'use strict';
 
 var postcss = require('postcss');
-var R = require('ramda');
 
 module.exports = postcss.plugin('postcss-responsive-type', function () {
 
@@ -84,7 +83,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
    * @param  {object} rule CSS rule to parse
    */
   var fetchParams = function(rule, declName){
-    var params = R.clone(defaultParams[declName]);
+    var params = Object.assign({}, defaultParams[declName]);
 
     // Fetch params from shorthand declName, i.e., font-size or line-height, etc
     fetchResponsiveSizes(rule, declName, function(minSize, maxSize) {
