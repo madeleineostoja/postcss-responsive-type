@@ -153,7 +153,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
         maxWidthUnit = getUnit(params.maxWidth);
 
     if (sizeUnit === null) {
-      rule.warn(result, 'sizes with unitless values are not supported');
+      throw rule.error('sizes with unitless values are not supported');
     }
 
     if (sizeUnit !== maxSizeUnit && widthUnit !== maxWidthUnit) {

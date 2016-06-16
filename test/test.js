@@ -82,17 +82,18 @@ describe('postcss-responsive-type', function() {
   });
 
   it('warns about responsive unitless line-height', function(done) {
-   test('unitless_lineheight', {}, [{
-      type: 'warning',
-      text: 'sizes with unitless values are not supported',
-      line: 1,
-      column: 1
-    }, {
-      type: 'warning',
-      text: 'this combination of units is not supported',
-      line: 1,
-      column: 1
-    }], done);
+    test('unitless_lineheight', {}, [], function (error) {
+      expect(error).to.contain({
+          name: 'CssSyntaxError',
+          reason: 'sizes with unitless values are not supported',
+          plugin: 'postcss-responsive-type',
+          source: '.foo {\n  line-height: responsive 1.5 2;\n}\n',
+          line: 1,
+          column: 1
+        });
+
+      done();
+    });
   });
 
   it('sets responsive letterspacing', function(done) {
