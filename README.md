@@ -42,7 +42,7 @@ html {
   line-height: responsive 1rem 2rem;
   line-height-range: 420px 1280px;
 
-  letter-spacing: responsive 1rem 2rem;
+  letter-spacing: responsive 3px 10px;
   letter-spacing-range: 420px 1280px;
 
   /* or extended syntax: */
@@ -53,8 +53,8 @@ html {
   upper-line-height-range: 1280px;
 
   letter-spacing: responsive;
-  min-letter-spacing-size: 1rem;
-  max-letter-spacing-size: 2rem;
+  min-letter-spacing-size: 3px;
+  max-letter-spacing-size: 10px;
   lower-letter-spacing-range: 420px;
   upper-letter-spacing-range: 1280px;
 }
@@ -98,6 +98,22 @@ To get started you only need to specify `font-size: responsive;`, all other prop
 `lower-font-range`: 420px
 
 `upper-font-range`: 1280px
+
+`min-line-height-size`: 1rem;
+
+`max-line-height-size`: 2rem;
+
+`lower-line-height-range`: 420px;
+
+`upper-line-height-range`: 1280px;
+
+`min-letter-spacing-size`: 3px;
+
+`max-letter-spacing-size`: 10px;
+
+`lower-letter-spacing-range`: 420px;
+
+`upper-letter-spacing-range`: 1280px;
 
 --
 

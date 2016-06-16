@@ -19,8 +19,8 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
       maxWidth: '1280px'
     },
     'letter-spacing': {
-      minSize: '1rem',
-      maxSize: '2rem',
+      minSize: '3px',
+      maxSize: '10px',
       minWidth: '420px',
       maxWidth: '1280px'
     }
