@@ -7,13 +7,13 @@ var postcss = require('postcss'),
     path = require('path'),
     plugin = require('../');
 
-var compareWarnings = function(warnings, expected) {
+function compareWarnings(warnings, expected) {
   warnings.forEach(function (warning, i) {
     expect(warning).to.contain(expected[i]);
   });
 };
 
-var test = function (fixture, opts, warnings, done) {
+function test(fixture, opts, warnings, done) {
   var input = fixture + '.css',
       expected = fixture + '.expected.css';
 

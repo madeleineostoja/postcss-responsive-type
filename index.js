@@ -4,60 +4,54 @@ var postcss = require('postcss');
 
 module.exports = postcss.plugin('postcss-responsive-type', function () {
 
-  // Default parameters
-  var defaultParams = {
-    'font-size': {
-      minSize: '12px',
-      maxSize: '21px',
-      minWidth: '420px',
-      maxWidth: '1280px'
-    },
-    'line-height': {
-      minSize: '1rem',
-      maxSize: '2rem',
-      minWidth: '420px',
-      maxWidth: '1280px'
-    },
-    'letter-spacing': {
-      minSize: '3px',
-      maxSize: '10px',
-      minWidth: '420px',
-      maxWidth: '1280px'
-    }
-  };
+  var rootSize = '16px',
+      defaultParams = {
+        'font-size': {
+          minSize: '12px',
+          maxSize: '21px',
+          minWidth: '420px',
+          maxWidth: '1280px'
+        },
+        'line-height': {
+          minSize: '1rem',
+          maxSize: '2rem',
+          minWidth: '420px',
+          maxWidth: '1280px'
+        },
+        'letter-spacing': {
+          minSize: '3px',
+          maxSize: '10px',
+          minWidth: '420px',
+          maxWidth: '1280px'
+        }
+      },
+      paramRangeDecl = {
+        'font-size': 'font-range',
+        'line-height': 'line-height-range',
+        'letter-spacing': 'letter-spacing-range'
+      },
+      paramDecls = {
+        'font-size': {
+          minSize: 'min-font-size',
+          maxSize: 'max-font-size',
+          minWidth: 'lower-font-range',
+          maxWidth: 'upper-font-range'
+        },
+        'line-height': {
+          minSize: 'min-line-height',
+          maxSize: 'max-line-height',
+          minWidth: 'lower-line-height-range',
+          maxWidth: 'upper-line-height-range'
+        },
+        'letter-spacing': {
+          minSize: 'min-letter-spacing',
+          maxSize: 'max-letter-spacing',
+          minWidth: 'lower-letter-spacing-range',
+          maxWidth: 'upper-letter-spacing-range'
+        }
+      };
 
-  // Map supported params to their range declarations
-  var paramRangeDecl = {
-    'font-size': 'font-range',
-    'line-height': 'line-height-range',
-    'letter-spacing': 'letter-spacing-range'
-  };
-
-  // Map expanded declarations to params
-  var paramDecls = {
-    'font-size': {
-      minSize: 'min-font-size',
-      maxSize: 'max-font-size',
-      minWidth: 'lower-font-range',
-      maxWidth: 'upper-font-range'
-    },
-    'line-height': {
-      minSize: 'min-line-height',
-      maxSize: 'max-line-height',
-      minWidth: 'lower-line-height-range',
-      maxWidth: 'upper-line-height-range'
-    },
-    'letter-spacing': {
-      minSize: 'min-letter-spacing',
-      maxSize: 'max-letter-spacing',
-      minWidth: 'lower-letter-spacing-range',
-      maxWidth: 'upper-letter-spacing-range'
-    }
-  };
-
-  var rootSize = '16px';
-
-  var fetchResponsiveSizes = function(rule, declName, cb){
+  function fetchResponsiveSizes(rule, declName, cb){
     rule.walkDecls(declName, function(decl){
 
       if (decl.value.indexOf('responsive') > -1) {
@@ -70,7 +64,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
     });
   };
 
-  var fetchRangeSizes = function(rule, declName, cb){
+  function fetchRangeSizes(rule, declName, cb){
     rule.walkDecls(declName, function(decl){
       var vals = decl.value.split(/\s+/);
       cb(vals[0], vals[1]);
@@ -82,8 +76,9 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
    * Fetch plugin parameters from css rules
    * @param  {object} rule CSS rule to parse
    */
-  var fetchParams = function(rule, declName){
-    var params = Object.assign({}, defaultParams[declName]);
+  function fetchParams(rule, declName){
+    var params = Object.assign({}, defaultParams[declName]),
+        rangeDecl;
 
     // Fetch params from shorthand declName, i.e., font-size or line-height, etc
     fetchResponsiveSizes(rule, declName, function(minSize, maxSize) {
@@ -98,7 +93,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
     });
 
     // Fetch parameters from expanded properties
-    var rangeDecl = paramDecls[declName];
+    rangeDecl = paramDecls[declName];
     Object.keys(rangeDecl).forEach(function(param){
       rule.walkDecls(rangeDecl[param], function(decl){
         params[param] = decl.value.trim();
@@ -114,7 +109,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
    * @param  {String} px pixel value
    * @return {String}    rem value
    */
-  var pxToRem = function(px) {
+  function pxToRem(px) {
     return parseFloat(px) / parseFloat(rootSize) + 'rem';
   };
 
@@ -123,7 +118,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
    * @param  {String} value value to extract unit from
    * @return {String}       unit
    */
-  var getUnit = function(value) {
+  function getUnit(value) {
     var match = value.match(/px|rem|em/);
 
     if (match) {
@@ -137,20 +132,18 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
    * @param  {object} rule     old CSS rule
    * @return {object}          object of new CSS rules
    */
-  var buildRules = function(rule, declName, params, result) {
+  function buildRules(rule, declName, params, result) {
     var rules = {},
-        minSize,
-        maxSize,
+        minSize = params.minSize,
+        maxSize = params.maxSize,
         minWidth,
-        maxWidth;
-
-    minSize = params.minSize;
-    maxSize = params.maxSize;
-
-    var sizeUnit = getUnit(params.minSize),
+        maxWidth,
+        sizeUnit = getUnit(params.minSize),
         maxSizeUnit = getUnit(params.maxSize),
         widthUnit = getUnit(params.minWidth),
-        maxWidthUnit = getUnit(params.maxWidth);
+        maxWidthUnit = getUnit(params.maxWidth),
+        sizeDiff,
+        rangeDiff;
 
     if (sizeUnit === null) {
       throw rule.error('sizes with unitless values are not supported');
@@ -177,8 +170,9 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
     }
 
     // Build the responsive type decleration
-    var sizeDiff = parseFloat(maxSize) - parseFloat(minSize),
-        rangeDiff = parseFloat(maxWidth) - parseFloat(minWidth);
+    sizeDiff = parseFloat(maxSize) - parseFloat(minSize);
+    rangeDiff = parseFloat(maxWidth) - parseFloat(minWidth);
+
     rules.responsive = 'calc(' + minSize + ' + ' + sizeDiff + ' * ((100vw - ' + minWidth + ') / ' + rangeDiff + '))';
 
     // Build the media queries
@@ -232,6 +226,8 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
 
       rule.walkDecls(/^(font-size|line-height|letter-spacing)$/, function(decl){
 
+        var params;
+
         // If decl doesn't contain responsve keyword, exit
         if (decl.value.indexOf('responsive') === -1) {
           return;
@@ -239,7 +235,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
 
         thisRule = decl.parent;
 
-        var params = fetchParams(thisRule, decl.prop);
+        params = fetchParams(thisRule, decl.prop);
 
         newRules = buildRules(thisRule, decl.prop, params, result);
 
