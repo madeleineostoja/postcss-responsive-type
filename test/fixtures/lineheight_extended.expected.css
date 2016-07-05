@@ -1,0 +1,13 @@
+.foo {
+  line-height: calc(10px + 20 * ((100vw - 300px) / 600));
+}
+@media screen and (min-width: 900px) {
+  .foo {
+    line-height: 30px;
+  }
+}
+@media screen and (max-width: 300px) {
+  .foo {
+    line-height: 10px;
+  }
+}

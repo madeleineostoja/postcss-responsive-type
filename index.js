@@ -62,7 +62,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
       }
 
     });
-  };
+  }
 
   function fetchRangeSizes(rule, declName, cb){
     rule.walkDecls(declName, function(decl){
@@ -70,7 +70,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
       cb(vals[0], vals[1]);
       decl.remove();
     });
-  };
+  }
 
   /**
    * Fetch plugin parameters from css rules
@@ -102,7 +102,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
     });
 
     return params;
-  };
+  }
 
   /**
    * Px -> Rem converter
@@ -111,7 +111,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
    */
   function pxToRem(px) {
     return parseFloat(px) / parseFloat(rootSize) + 'rem';
-  };
+  }
 
   /**
    * Extract the unit from a string
@@ -125,7 +125,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
       return match.toString();
     }
     return null; // unitless value
-  };
+  }
 
   /**
    * Build new responsive type rules
@@ -206,7 +206,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
     });
 
     return rules;
-  };
+  }
 
   // Do it!
   return function (css, result) {

@@ -11,7 +11,7 @@ function compareWarnings(warnings, expected) {
   warnings.forEach(function (warning, i) {
     expect(warning).to.contain(expected[i]);
   });
-};
+}
 
 function test(fixture, opts, warnings, done) {
   var input = fixture + '.css',
@@ -36,7 +36,7 @@ function test(fixture, opts, warnings, done) {
       done(error);
     });
 
-};
+}
 
 describe('postcss-responsive-type', function() {
 
@@ -81,6 +81,11 @@ describe('postcss-responsive-type', function() {
    test('lineheight', {}, [], done);
   });
 
+  it('sets responsive line-height with extended syntax', function(done) {
+   test('lineheight_extended', {}, [], done);
+  });
+
+
   it('warns about responsive unitless line-height', function(done) {
     test('unitless_lineheight', {}, [], function (error) {
       expect(error).to.contain({
@@ -99,5 +104,10 @@ describe('postcss-responsive-type', function() {
   it('sets responsive letterspacing', function(done) {
    test('letterspacing', {}, [], done);
   });
+
+  it('sets responsive letterspacing with extended syntax', function(done) {
+   test('letterspacing_extended', {}, [], done);
+  });
+
 
 });
