@@ -1,0 +1,6 @@
+.foo {
+  letter-spacing: responsive;
+  min-letter-spacing: 10px;
+  max-letter-spacing: 30px;
+  letter-spacing-range: 300px 900px;
+}
