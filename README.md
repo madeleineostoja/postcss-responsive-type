@@ -47,14 +47,14 @@ html {
 
   /* or extended syntax: */
   line-height: responsive;
-  min-line-height-size: 1rem;
-  max-line-height-size: 2rem;
+  min-line-height: 1rem;
+  max-line-height: 2rem;
   lower-line-height-range: 420px;
   upper-line-height-range: 1280px;
 
   letter-spacing: responsive;
-  min-letter-spacing-size: 3px;
-  max-letter-spacing-size: 10px;
+  min-letter-spacing: 3px;
+  max-letter-spacing: 10px;
   lower-letter-spacing-range: 420px;
   upper-letter-spacing-range: 1280px;
 }
