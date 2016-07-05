@@ -11,7 +11,7 @@ function compareWarnings(warnings, expected) {
   warnings.forEach(function (warning, i) {
     expect(warning).to.contain(expected[i]);
   });
-};
+}
 
 function test(fixture, opts, warnings, done) {
   var input = fixture + '.css',
@@ -36,7 +36,7 @@ function test(fixture, opts, warnings, done) {
       done(error);
     });
 
-};
+}
 
 describe('postcss-responsive-type', function() {
 
