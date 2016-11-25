@@ -9,15 +9,18 @@ Part of [Rucksack - CSS Superpowers](http://simplaio.github.io/rucksack).
 
 ![Responsive Type Demo][demo]
 
-###### Quick start:
+##### Quick start:
+
 ```css
 html {
   font-size: responsive;
 }
 ```
 
-###### Specify parameters:
+##### Specify parameters:
+
 Units can be in px, rem, or em. When using em units, be sure that the `font-range` is specified in em as well.
+
 ```css
 html {
   font-size: responsive 12px 21px; /* min-size, max-size */
@@ -25,7 +28,8 @@ html {
 }
 ```
 
-###### Expanded syntax:
+##### Expanded syntax:
+
 ```css
 html {
   font-size: responsive;
@@ -35,89 +39,82 @@ html {
   upper-font-range: 1280px;
 }
 ```
-###### Responsive line-height and letter-spacing:
-Works the same as `font-size`:
+
+##### Responsive `line-height` and `letter-spacing`:
+
+PostCSS Responsive Type also allows you to set fluid sizes for the `line-height` and `letter-spacing` properties. They have the same syntax and work the same way as responsive font sizes.
+
 ```css
 html {
-  line-height: responsive 1rem 2rem;
+  line-height: responsive 1.2em 1.8em;
   line-height-range: 420px 1280px;
-
-  letter-spacing: responsive 3px 10px;
-  letter-spacing-range: 420px 1280px;
 
   /* or extended syntax: */
   line-height: responsive;
-  min-line-height: 1rem;
-  max-line-height: 2rem;
+  min-line-height: 1.2em;
+  max-line-height: 1.8em;
   lower-line-height-range: 420px;
   upper-line-height-range: 1280px;
+}
+```
 
+```css
+html {
+  letter-spacing: responsive 0px 4px;
+  letter-spacing-range: 420px 1280px;
+
+  /* or extended syntax: */
   letter-spacing: responsive;
-  min-letter-spacing: 3px;
-  max-letter-spacing: 10px;
+  min-letter-spacing: 0px;
+  max-letter-spacing: 4px;
   lower-letter-spacing-range: 420px;
   upper-letter-spacing-range: 1280px;
 }
 ```
 
-Unitless line heights or letter spacing are not supported
-
-###### What it outputs:
-```css
-html {
-  font-size: calc(12px + 9 * ((100vw - 420px) / 860));
-}
-
-@media screen and (max-width: 420px) {
-  html {
-    font-size: 12px;
-  }
-}
-
-@media screen and (min-width: 1280px) {
-  html {
-    font-size: 21px;
-  }
-}
-```
-That `calc` expression is equivalent to
-
-```
-min-size + (max-size - min-size) * ( (100vw - min-width) / ( max-width - min-width) )
-```
+**Note:** Unitless line heights are not supported.
 
 --
 
 ### Defaults
-To get started you only need to specify `font-size: responsive;`, all other properties have sane defaults.
+To get started you only need to specify the `responsive` property, all other values have sane defaults.
 
-`min-font-size`: 14px
+##### `font-size`
 
-`max-font-size`: 21px
+- `min-font-size`: 14px
 
-`lower-font-range`: 420px
+- `max-font-size`: 21px
 
-`upper-font-range`: 1280px
+- `lower-font-range`: 420px
 
-`min-line-height-size`: 1rem;
+- `upper-font-range`: 1280px
 
-`max-line-height-size`: 2rem;
 
-`lower-line-height-range`: 420px;
+##### `line-height`
 
-`upper-line-height-range`: 1280px;
+- `min-line-height`: 1.2em
 
-`min-letter-spacing-size`: 3px;
+- `max-line-height`: 1.8em
 
-`max-letter-spacing-size`: 10px;
+- `lower-line-height-range`: 420px
 
-`lower-letter-spacing-range`: 420px;
+- `upper-line-height-range`: 1280px
 
-`upper-letter-spacing-range`: 1280px;
+
+##### `letter-spacing`
+
+- `min-letter-spacing`: 0px
+
+- `max-letter-spacing`: 4px
+
+- `lower-letter-spacing-range`: 420px
+
+- `upper-letter-spacing-range`: 1280px
 
 --
 
 ### Browser Support
+
 `postcss-responsive-type` just uses calc, vw units, and media queries behind the scenes, so it works on all modern browsers (IE9+). Although Opera Mini is not supported.
 
 Legacy browsers will ignore the output `responsive` font-size. You can easily provide a simple static fallback:

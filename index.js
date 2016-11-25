@@ -13,14 +13,14 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
           maxWidth: '1280px'
         },
         'line-height': {
-          minSize: '1rem',
-          maxSize: '2rem',
+          minSize: '1.2em',
+          maxSize: '1.8em',
           minWidth: '420px',
           maxWidth: '1280px'
         },
         'letter-spacing': {
-          minSize: '3px',
-          maxSize: '10px',
+          minSize: '0px',
+          maxSize: '4px',
           minWidth: '420px',
           maxWidth: '1280px'
         }
