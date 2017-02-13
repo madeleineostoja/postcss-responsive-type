@@ -109,5 +109,8 @@ describe('postcss-responsive-type', function() {
    test('letterspacing_extended', {}, [], done);
   });
 
+  it('sets responsive letterspacing with negative values', function(done) {
+   test('letterspacing_negative', {}, [], done);
+  });
 
 });

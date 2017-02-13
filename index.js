@@ -55,7 +55,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
     rule.walkDecls(declName, function(decl){
 
       if (decl.value.indexOf('responsive') > -1) {
-        var vals = decl.value.match(/\d*\.?\d+(?:\w+)?/g);
+        var vals = decl.value.match(/-?\d*\.?\d+(?:\w+)?/g);
         if (vals) {
           cb(vals[0], vals[1]);
         }
