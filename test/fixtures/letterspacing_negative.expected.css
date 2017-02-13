@@ -1,0 +1,13 @@
+.foo {
+  letter-spacing: calc(-10px + -20 * ((100vw - 300px) / 600));
+}
+@media screen and (min-width: 900px) {
+  .foo {
+    letter-spacing: -30px;
+  }
+}
+@media screen and (max-width: 300px) {
+  .foo {
+    letter-spacing: -10px;
+  }
+}
