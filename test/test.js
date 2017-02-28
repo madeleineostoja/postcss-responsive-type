@@ -113,4 +113,8 @@ describe('postcss-responsive-type', function() {
    test('letterspacing_negative', {}, [], done);
   });
 
+  it('sets infinite range', function(done) {
+   test('infinite', {}, [], done);
+  });
+
 });
