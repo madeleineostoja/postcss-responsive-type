@@ -97,7 +97,16 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
     rangeDecl = paramDecls[declName];
     Object.keys(rangeDecl).forEach(function(param){
       rule.walkDecls(rangeDecl[param], function(decl){
-        params[param] = decl.value.trim();
+
+        // Extract rangeOption from maxWith decl
+        if (param === 'maxWidth') {
+          var vals = decl.value.split(/\s+/);
+          params[param] = vals[0];
+          params['rangeOption'] = vals[1];
+        } else {
+          params[param] = decl.value.trim();
+        }
+
         decl.remove();
       });
     });

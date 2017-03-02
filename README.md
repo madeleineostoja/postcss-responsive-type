@@ -74,6 +74,36 @@ html {
 
 **Note:** Unitless line heights are not supported.
 
+##### Infinite ranges
+
+By adding the `infinite` option to any range property, the max width media query will be omitted and there will be no upper limit to your range. Sizes will continue scale beyond your upper range with the factor calculated by specified min/max values.
+
+```css
+html {
+  font-range: 420px 1280px infinite;
+
+  /* or extended syntax */
+  lower-font-range: 420px;
+  upper-font-range: 1280px infinite;
+}
+
+html {
+  line-height-range: 420px 1280px infinite;
+
+  /* or extended syntax */
+  lower-line-height-range: 420px;
+  upper-line-height-range: 1280px infinite;
+}
+
+html {
+  letter-spacing-range: 420px 1280px infinite;
+
+  /* or extended syntax */
+  lower-letter-spacing-range: 420px;
+  upper-letter-spacing-range: 1280px infinite;
+}
+```
+
 --
 
 ### Defaults
