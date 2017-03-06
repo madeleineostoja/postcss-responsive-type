@@ -102,7 +102,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
         if (param === 'maxWidth') {
           var vals = decl.value.split(/\s+/);
           params[param] = vals[0];
-          params['rangeOption'] = vals[1];
+          params.rangeOption = vals[1];
         } else {
           params[param] = decl.value.trim();
         }
