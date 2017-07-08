@@ -1,0 +1,20 @@
+.foo {
+  font-size: calc(10px + 20 * ((100vw - 300px) / 600));
+  letter-spacing: calc(10px + 20 * ((100vw - 300px) / 600));
+  line-height: calc(10px + 20 * ((100vw - 300px) / 600));
+}
+@media screen and (max-width: 300px) {
+  .foo {
+    line-height: 10px;
+  }
+}
+@media screen and (max-width: 300px) {
+  .foo {
+    letter-spacing: 10px;
+  }
+}
+@media screen and (max-width: 300px) {
+  .foo {
+    font-size: 10px;
+  }
+}

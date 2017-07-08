@@ -1,0 +1,11 @@
+.foo {
+  font-size: responsive 10px 30px;
+  lower-font-range: 300px;
+  upper-font-range: 900px infinite;
+  letter-spacing: responsive 10px 30px;
+  lower-letter-spacing-range: 300px;
+  upper-letter-spacing-range: 900px infinite;
+  line-height: responsive 10px 30px;
+  lower-line-height-range: 300px;
+  upper-line-height-range: 900px infinite;
+}

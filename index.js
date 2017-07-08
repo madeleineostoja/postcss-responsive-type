@@ -67,7 +67,7 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
   function fetchRangeSizes(rule, declName, cb){
     rule.walkDecls(declName, function(decl){
       var vals = decl.value.split(/\s+/);
-      cb(vals[0], vals[1]);
+      cb(vals[0], vals[1], vals[2]);
       decl.remove();
     });
   }
@@ -87,16 +87,26 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
     });
 
     // Fetch params from shorthand font-range or line-height-range
-    fetchRangeSizes(rule, paramRangeDecl[declName], function(minSize, maxSize){
+    fetchRangeSizes(rule, paramRangeDecl[declName], function(minSize, maxSize, rangeOption){
       params.minWidth = minSize;
       params.maxWidth = maxSize;
+      params.rangeOption = rangeOption;
     });
 
     // Fetch parameters from expanded properties
     rangeDecl = paramDecls[declName];
     Object.keys(rangeDecl).forEach(function(param){
       rule.walkDecls(rangeDecl[param], function(decl){
-        params[param] = decl.value.trim();
+
+        // Extract rangeOption from maxWith decl
+        if (param === 'maxWidth') {
+          var vals = decl.value.split(/\s+/);
+          params[param] = vals[0];
+          params.rangeOption = vals[1];
+        } else {
+          params[param] = decl.value.trim();
+        }
+
         decl.remove();
       });
     });
@@ -143,7 +153,8 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
         widthUnit = getUnit(params.minWidth),
         maxWidthUnit = getUnit(params.maxWidth),
         sizeDiff,
-        rangeDiff;
+        rangeDiff,
+        infiniteRange = params.rangeOption === 'infinite';
 
     if (sizeUnit === null) {
       throw rule.error('sizes with unitless values are not supported');
@@ -181,10 +192,13 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
       params: 'screen and (max-width: ' + params.minWidth + ')'
     });
 
-    rules.maxMedia = postcss.atRule({
-      name: 'media',
-      params: 'screen and (min-width: ' + params.maxWidth + ')'
-    });
+    // Skip max media query if infinite range
+    if (!infiniteRange) {
+      rules.maxMedia = postcss.atRule({
+        name: 'media',
+        params: 'screen and (min-width: ' + params.maxWidth + ')'
+      });
+    }
 
     // Add the required content to new media queries
     rules.minMedia.append({
@@ -196,14 +210,17 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
       });
     });
 
-    rules.maxMedia.append({
-      selector: rule.selector
-    }).walkRules(function(selector){
-      selector.append({
-        prop: declName,
-        value: params.maxSize
+    // Skip max media query if infinite range
+    if (!infiniteRange) {
+      rules.maxMedia.append({
+        selector: rule.selector
+      }).walkRules(function(selector){
+        selector.append({
+          prop: declName,
+          value: params.maxSize
+        });
       });
-    });
+    }
 
     return rules;
   }
@@ -246,8 +263,11 @@ module.exports = postcss.plugin('postcss-responsive-type', function () {
 
         // Insert the media queries
         thisRule.parent.insertAfter(thisRule, newRules.minMedia);
-        thisRule.parent.insertAfter(thisRule, newRules.maxMedia);
 
+        // Insert if maxMedia is exists
+        if (newRules.maxMedia) {
+          thisRule.parent.insertAfter(thisRule, newRules.maxMedia);
+        }
       });
     });
   };
