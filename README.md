@@ -1,15 +1,27 @@
 # PostCSS Responsive Type
-[![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+[![NPM version][npm-badge]][npm-url] [![NPM downloads][npm-downloads]][npm-url] [![Build Status][travis-badge]][travis-url]
 
-[PostCSS][PostCSS] plugin for automagical responsive typography. Adds a `responsive` property to `font-size`, `line-height` and `letter-spacing` that generates complex `calc` and `vw` based font sizes.
-
-Inspired by [this post][post] from [@MikeRiethmuller][mike], and [Typographic][typographic].
-
-Part of [Rucksack - CSS Superpowers](http://simplaio.github.io/rucksack).
+Generate automagical fluid typography, with new `responsive` properties for `font-size`, `line-height`, and `letter-spacing`. Built on [PostCSS][postcss].
 
 ![Responsive Type Demo][demo]
 
-##### Quick start:
+Inspired by [Typographic][typographic], and [this post][post].
+
+_Part of [Rucksack - CSS Superpowers](http://simplaio.github.io/rucksack)_
+
+### Contents
+
+- [Usage](#usage)
+  - [Quick start](#quick-start)
+  - [Specify parameters](#specify-parameters)
+  - [Expanded syntax](#expanded-syntax)
+  - [Responsive `line-height` and `letter-spacing`](#responsive-line-height-and-letter-spacing)
+- [Defaults](#defaults)
+- [Browser Support](#browser-support)
+
+## Usage
+
+#### Quick start
 
 ```css
 html {
@@ -17,7 +29,7 @@ html {
 }
 ```
 
-##### Specify parameters:
+#### Specify parameters
 
 Units can be in px, rem, or em. When using em units, be sure that the `font-range` is specified in em as well.
 
@@ -28,7 +40,7 @@ html {
 }
 ```
 
-##### Expanded syntax:
+#### Expanded syntax
 
 ```css
 html {
@@ -40,7 +52,7 @@ html {
 }
 ```
 
-##### Responsive `line-height` and `letter-spacing`:
+#### Responsive `line-height` and `letter-spacing`
 
 PostCSS Responsive Type also allows you to set fluid sizes for the `line-height` and `letter-spacing` properties. They have the same syntax and work the same way as responsive font sizes.
 
@@ -72,11 +84,9 @@ html {
 }
 ```
 
-**Note:** Unitless line heights are not supported.
+> **Note:** Unitless line heights are not supported.
 
---
-
-### Defaults
+## Defaults
 To get started you only need to specify the `responsive` property, all other values have sane defaults.
 
 ##### `font-size`
@@ -111,9 +121,8 @@ To get started you only need to specify the `responsive` property, all other val
 
 - `upper-letter-spacing-range`: 1280px
 
---
 
-### Browser Support
+## Browser Support
 
 `postcss-responsive-type` just uses calc, vw units, and media queries behind the scenes, so it works on all modern browsers (IE9+). Although Opera Mini is not supported.
 
@@ -126,38 +135,15 @@ Legacy browsers will ignore the output `responsive` font-size. You can easily pr
 }
 ```
 
-Alternatively, if you feel the need to fully support legacy browsers or Opera Mini, there are polyfills that can help!
-
-- [respond][respond] for media query support.
-
-- [calc-polyfill][calc-polyfill] for `calc` support.
-
-- [vminpoly][vminpoly] for `vw` unit support.
-
---
-
-### Usage
-
-```js
-postcss([ require('postcss-responsive-type')() ])
-```
-
-See [PostCSS][PostCSS] docs for examples for your environment.
-
-You can use `postcss-responsive-type` with Stylus through [PostStylus][poststylus].
-
---
-
-### License
+***
 
 MIT © [Sean King](https://twitter.com/seaneking)
 
-[npm-image]: https://badge.fury.io/js/postcss-responsive-type.svg
+[npm-badge]: https://img.shields.io/npm/v/postcss-responsive-type.svg
 [npm-url]: https://npmjs.org/package/postcss-responsive-type
-[travis-image]: https://travis-ci.org/seaneking/postcss-responsive-type.svg?branch=master
+[npm-downloads]: https://img.shields.io/npm/dm/postcss-responsive-type.svg
+[travis-badge]: https://travis-ci.org/seaneking/postcss-responsive-type.svg?branch=master
 [travis-url]: https://travis-ci.org/seaneking/postcss-responsive-type
-[daviddm-image]: https://david-dm.org/seaneking/postcss-responsive-type.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/seaneking/postcss-responsive-type
 [PostCSS]: https://github.com/postcss/postcss
 [demo]: /demo.gif?raw=true
 [typographic]: https://github.com/corysimmons/typographic
