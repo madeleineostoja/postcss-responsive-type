@@ -1,20 +1,17 @@
-/*eslint no-unused-expressions: 0, block-scoped-var: 0, no-undef: 0*/
 'use strict';
 
-var postcss = require('postcss'),
-    expect = require('chai').expect,
-    fs = require('fs'),
-    path = require('path'),
-    plugin = require('../');
+const postcss = require('postcss');
+const expect = require('chai').expect;
+const fs = require('fs');
+const path = require('path');
+const plugin = require('../');
 
 function compareWarnings(warnings, expected) {
-  warnings.forEach(function (warning, i) {
-    expect(warning).to.contain(expected[i]);
-  });
+  warnings.forEach((warning, i) => expect(warning).to.contain(expected[i]));
 }
 
 function test(fixture, opts, warnings, done) {
-  var input = fixture + '.css',
+  let input = fixture + '.css',
       expected = fixture + '.expected.css';
 
   input = fs.readFileSync(path.join(__dirname, 'fixtures', input), 'utf8');
@@ -22,7 +19,7 @@ function test(fixture, opts, warnings, done) {
 
   postcss([ plugin(opts) ])
     .process(input)
-    .then(function (result) {
+    .then(result => {
       expect(result.css).to.eql(expected);
 
       if (warnings.length > 0) {
@@ -32,27 +29,18 @@ function test(fixture, opts, warnings, done) {
       }
 
       done();
-    }).catch(function (error) {
-      done(error);
-    });
-
+    }).catch(done);
 }
 
-describe('postcss-responsive-type', function() {
+describe('postcss-responsive-type', () => {
 
-  it('builds responsive type with defaults', function(done) {
-   test('default', {}, [], done);
-  });
+  it('builds responsive type with defaults', done => test('default', {}, [], done));
 
-  it('applies custom parameters', function(done) {
-   test('custom', {}, [], done);
-  });
+  it('applies custom parameters', done => test('custom', {}, [], done));
 
-  it('works with shorthand properties', function(done) {
-   test('shorthand', {}, [], done);
-  });
+  it('works with shorthand properties', done => test('shorthand', {}, [], done));
 
-  it('handles mixed units', function(done) {
+  it('handles mixed units', done => {
     test('mixed', {}, [{
       type: 'warning',
       text: 'this combination of units is not supported',
@@ -61,34 +49,22 @@ describe('postcss-responsive-type', function() {
     }], done);
   });
 
-  it('handles em units', function(done) {
-    test('em', {}, [], done);
-  });
+  it('handles em units', done => test('em', {}, [], done));
 
-  it('properly calculates rem from root font size', function(done) {
-    test('root', {}, [], done);
-  });
+  it('properly calculates rem from root font size', done => test('root', {}, [], done));
 
-  it('doesn\'t kill fallbacks/duplicate properties', function(done) {
-   test('fallback', {}, [], done);
-  });
+  it('doesn\'t kill fallbacks/duplicate properties', done => test('fallback', {}, [], done));
 
-  it('sanitizes inputs', function(done) {
-   test('formatting', {}, [], done);
-  });
+  it('sanitizes inputs', done => test('formatting', {}, [], done));
 
-  it('sets responsive line-height', function(done) {
-   test('lineheight', {}, [], done);
-  });
+  describe('line height', () => {
+    it('sets responsive line-height', done => test('lineheight', {}, [], done));
 
-  it('sets responsive line-height with extended syntax', function(done) {
-   test('lineheight_extended', {}, [], done);
-  });
+    it('sets responsive line-height with extended syntax', done => test('lineheight_extended', {}, [], done));
 
-
-  it('warns about responsive unitless line-height', function(done) {
-    test('unitless_lineheight', {}, [], function (error) {
-      expect(error).to.contain({
+    it('warns about responsive unitless line-height', done => {
+      test('unitless_lineheight', {}, [], error => {
+        expect(error).to.contain({
           name: 'CssSyntaxError',
           reason: 'sizes with unitless values are not supported',
           plugin: 'postcss-responsive-type',
@@ -97,20 +73,16 @@ describe('postcss-responsive-type', function() {
           column: 1
         });
 
-      done();
+        done();
+      });
     });
   });
 
-  it('sets responsive letterspacing', function(done) {
-   test('letterspacing', {}, [], done);
-  });
+  describe('letterspacing', () => {
+    it('sets responsive letterspacing', done => test('letterspacing', {}, [], done));
 
-  it('sets responsive letterspacing with extended syntax', function(done) {
-   test('letterspacing_extended', {}, [], done);
-  });
+    it('sets responsive letterspacing with extended syntax', done => test('letterspacing_extended', {}, [], done));
 
-  it('sets responsive letterspacing with negative values', function(done) {
-   test('letterspacing_negative', {}, [], done);
+    it('sets responsive letterspacing with negative values', done => test('letterspacing_negative', {}, [], done));
   });
-
 });

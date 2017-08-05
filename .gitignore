@@ -1,2 +1,6 @@
-node_modules/
-npm-debug.log
+# Deps
+node_modules
+
+# Runtime
+*.log
+.DS_Store
