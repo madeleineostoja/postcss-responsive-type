@@ -1,5 +1,5 @@
 # PostCSS Responsive Type
-[![NPM version][npm-badge]][npm-url] [![NPM downloads][npm-downloads]][npm-url] [![Build Status][travis-badge]][travis-url]
+[![NPM version][npm-badge]][npm-url] [![NPM downloads][downloads-badge]][npm-url] [![Build Status][travis-badge]][travis-url]
 
 Generate automagical fluid typography, with new `responsive` properties for `font-size`, `line-height`, and `letter-spacing`. Built on [PostCSS][postcss].
 
@@ -141,15 +141,11 @@ MIT © [Sean King](https://twitter.com/seaneking)
 
 [npm-badge]: https://img.shields.io/npm/v/postcss-responsive-type.svg
 [npm-url]: https://npmjs.org/package/postcss-responsive-type
-[npm-downloads]: https://img.shields.io/npm/dm/postcss-responsive-type.svg
+[downloads-badge]: https://img.shields.io/npm/dm/postcss-responsive-type.svg
 [travis-badge]: https://travis-ci.org/seaneking/postcss-responsive-type.svg?branch=master
 [travis-url]: https://travis-ci.org/seaneking/postcss-responsive-type
 [PostCSS]: https://github.com/postcss/postcss
 [demo]: /demo.gif?raw=true
 [typographic]: https://github.com/corysimmons/typographic
 [post]: http://madebymike.com.au/writing/precise-control-responsive-typography/
-[mike]: https://twitter.com/MikeRiethmuller
-[calc-polyfill]: https://github.com/closingtag/calc-polyfill
-[respond]: https://github.com/scottjehl/Respond
-[vminpoly]: https://github.com/saabi/vminpoly
 [poststylus]: https://github.com/seaneking/poststylus
