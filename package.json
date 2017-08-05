@@ -30,11 +30,11 @@
   },
   "devDependencies": {
     "chai": "^4.0.2",
-    "gulp": "^3.8.11",
-    "gulp-eslint": "^4.0.0",
-    "gulp-mocha": "^4.3.1"
+    "eslint": "^4.1.1",
+    "mocha": "^3.4.2"
   },
   "scripts": {
-    "test": "gulp check"
+    "test": "mocha test",
+    "posttest": "eslint ."
   }
 }
