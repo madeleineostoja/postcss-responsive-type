@@ -5,7 +5,7 @@ Generate automagical fluid typography, with new `responsive` properties for `fon
 
 ![Responsive Type Demo][demo]
 
-Inspired by [Typographic][typographic], and [this post][post].
+Inspired by [this post][post].
 
 _Part of [Rucksack - CSS Superpowers](http://simplaio.github.io/rucksack)_
 
@@ -146,6 +146,5 @@ MIT © [Sean King](https://twitter.com/seaneking)
 [travis-url]: https://travis-ci.org/seaneking/postcss-responsive-type
 [PostCSS]: https://github.com/postcss/postcss
 [demo]: /demo.gif?raw=true
-[typographic]: https://github.com/corysimmons/typographic
 [post]: http://madebymike.com.au/writing/precise-control-responsive-typography/
 [poststylus]: https://github.com/seaneking/poststylus
