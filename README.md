@@ -29,6 +29,8 @@ html {
 }
 ```
 
+> **Pro tip:** set a reaponsive font-size on `html` and use `rem` units throughout your project to make your whole UI fluid
+
 #### Specify parameters
 
 Units can be in px, rem, or em. When using em units, be sure that the `font-range` is specified in em as well.
