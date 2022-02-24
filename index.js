@@ -87,7 +87,7 @@ function fetchResponsiveSizes(rule, declName, cb) {
   });
 }
 
-function fetchRangeSizes(rule, declName, cb){
+function fetchRangeSizes(rule, declName, cb) {
   rule.walkDecls(declName, decl => {
     let vals = decl.value.split(/\s+/);
 
@@ -200,16 +200,16 @@ function buildRules(rule, declName, params, result) {
   return rules;
 }
 
-module.exports = postcss.plugin('postcss-responsive-type', () => {
-  return function (css, result) {
-    css.walkRules(function(rule){
-      let thisRule,
-          newRules;
+const plugin = () => ({
+  postcssPlugin: 'postcss-responsive-type',
+  Once(root, { result }) {
+    root.walkRules(function (rule) {
+      let thisRule, newRules;
 
       // Check root font-size (for rem units)
-      if (rule.selector.indexOf('html') > -1){
+      if (rule.selector.indexOf('html') > -1) {
         rule.walkDecls('font-size', decl => {
-          if (decl.value.indexOf('px') > -1){
+          if (decl.value.indexOf('px') > -1) {
             rootSize = decl.value;
           }
         });
@@ -237,5 +237,9 @@ module.exports = postcss.plugin('postcss-responsive-type', () => {
         thisRule.parent.insertAfter(thisRule, newRules.maxMedia);
       });
     });
-  };
+  }
 });
+
+plugin.postcss = true;
+
+module.exports = plugin;
