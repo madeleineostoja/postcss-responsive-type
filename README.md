@@ -7,7 +7,7 @@ Generate automagical fluid typography, with new `responsive` properties for `fon
 
 Inspired by [this post][post].
 
-_Part of [Rucksack - CSS Superpowers](http://simplaio.github.io/rucksack)_
+_Part of [Rucksack - CSS Superpowers](https://github.com/madeleineostoja/rucksack)_
 
 ### Contents
 
