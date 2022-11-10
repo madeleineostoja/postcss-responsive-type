@@ -16,6 +16,7 @@ _Part of [Rucksack - CSS Superpowers](https://github.com/madeleineostoja/rucksac
   - [Specify parameters](#specify-parameters)
   - [Expanded syntax](#expanded-syntax)
   - [Responsive `line-height` and `letter-spacing`](#responsive-line-height-and-letter-spacing)
+  - [Options](#options)
 - [Defaults](#defaults)
 - [Browser Support](#browser-support)
 
@@ -87,6 +88,16 @@ html {
 ```
 
 > **Note:** Unitless line heights are not supported.
+
+#### Options
+
+```js
+{
+    isRunOnExit: false,
+}
+```
+
+- `isRunOnExit` (Boolean) - When `true` a `postcss-responsive-type` plugin will be called after all rest of postcss plugins. The default value is `false`.
 
 ## Defaults
 To get started you only need to specify the `responsive` property, all other values have sane defaults.
