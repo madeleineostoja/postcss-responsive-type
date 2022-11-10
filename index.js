@@ -204,38 +204,47 @@ function buildRules(rule, declName, params, result) {
   return rules;
 }
 
-const plugin = () => ({
-  postcssPlugin: 'postcss-responsive-type',
-
-  // Will be called on Root node once, when all children will be processed.
-  // Execute the plugin at the end, after being processed by all plugins
-  // (such as mixins and variables), to get the converted declarations values.
-  OnceExit(rootInstance, { result }) {
-    rootInstance.walkRules((rule) => {
-      rule.walkDecls(/^(font-size|line-height|letter-spacing)$/, (decl) => {
-        if (rule.selector.includes('html')) {
-          if (decl.prop === 'font-size' && decl.value.includes('px')) {
-            rootSize = decl.value;
-          }
+// Plugin main function
+function runPluginOnce(rootInstance, { result }) {
+  rootInstance.walkRules((rule) => {
+    rule.walkDecls(/^(font-size|line-height|letter-spacing)$/, (decl) => {
+      if (rule.selector.includes('html')) {
+        if (decl.prop === 'font-size' && decl.value.includes('px')) {
+          rootSize = decl.value;
         }
+      }
 
-        // If decl contain "responsve" keyword
+      // If decl contain "responsve" keyword
+      if (decl.value.includes('responsive')) {
+        const params = fetchParams(rule, decl.prop);
+        const newRules = buildRules(rule, decl.prop, params, result);
+
+        // Insert the base responsive decleration
         if (decl.value.includes('responsive')) {
-          const params = fetchParams(rule, decl.prop);
-          const newRules = buildRules(rule, decl.prop, params, result);
-
-          // Insert the base responsive decleration
-          if (decl.value.includes('responsive')) {
-            decl.replaceWith({ prop: decl.prop, value: newRules.responsive });
-          }
-          // Insert the media queries
-          rule.parent.insertAfter(rule, newRules.minMedia);
-          rule.parent.insertAfter(rule, newRules.maxMedia);
+          decl.replaceWith({ prop: decl.prop, value: newRules.responsive });
         }
-      });
+        // Insert the media queries
+        rule.parent.insertAfter(rule, newRules.minMedia);
+        rule.parent.insertAfter(rule, newRules.maxMedia);
+      }
     });
-  },
-});
+  });
+}
 
-plugin.postcss = true;
-module.exports = plugin;
+const creator = (options = {}) => {
+  const isRunOnExit = options.isRunOnExit || false;
+
+  return {
+    postcssPlugin: 'postcss-responsive-type',
+
+    // Call by default
+    Once: !isRunOnExit && runPluginOnce,
+
+    // Call the plugin at the end, after being processed by all plugins
+    // (such as mixins and variables), to get the converted declarations values.
+    OnceExit: isRunOnExit && runPluginOnce,
+  };
+};
+
+creator.postcss = true;
+module.exports = creator;
