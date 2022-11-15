@@ -132,16 +132,32 @@ function fetchParams(rule, declName) {
  */
 function buildRules(rule, declName, params, result) {
   const rules = {};
-  const minSize = params.minSize;
-  const maxSize = params.maxSize;
-  let minWidth = null;
-  let maxWidth = null;
-  const sizeUnit = getUnit(params.minSize);
-  const maxSizeUnit = getUnit(params.maxSize);
+  let minSize = params.minSize;
+  let maxSize = params.maxSize;
+  let minWidth = undefined;
+  let maxWidth = undefined;
+  let sizeUnit = getUnit(params.minSize);
+  let maxSizeUnit = getUnit(params.maxSize);
   const widthUnit = getUnit(params.minWidth);
   const maxWidthUnit = getUnit(params.maxWidth);
-  let sizeDiff = null;
-  let rangeDiff = null;
+  let sizeDiff = undefined;
+  let rangeDiff = undefined;
+
+  // Handle the situation when the property value is set to 0 without unit
+  // e.g: "letter-spacing: responsive 0 10px;"
+  if (String(minSize) === '0' && sizeUnit === null) {
+    // Set size unit like width unit
+    sizeUnit = widthUnit;
+    minSize = `${minSize}${widthUnit}`;
+  }
+
+  // Handle the situation when the property value is set to 0 without unit
+  // e.g: "letter-spacing: responsive 10px 0;"
+  if (String(maxSize) === '0' && maxSizeUnit === null) {
+    // Set max size unit like max width unit
+    maxSizeUnit = maxWidthUnit;
+    maxSize = `${maxSize}${maxWidthUnit}`;
+  }
 
   if (sizeUnit === null) {
     throw rule.error('sizes with unitless values are not supported');
