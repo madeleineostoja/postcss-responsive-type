@@ -43,7 +43,7 @@ describe('postcss-responsive-type', () => {
   it('handles mixed units', done => {
     test('mixed', {}, [{
       type: 'warning',
-      text: 'this combination of units is not supported',
+      text: 'this combination of units for .baz font-size is not supported',
       line: 11,
       column: 1
     }], done);

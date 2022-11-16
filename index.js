@@ -135,8 +135,8 @@ function buildRules(rule, declName, params, result) {
   const rules = {};
   let minSize = params.minSize;
   let maxSize = params.maxSize;
-  let minWidth = undefined;
-  let maxWidth = undefined;
+  let minWidth = params.minWidth;
+  let maxWidth = params.maxWidth;
   let sizeUnit = getUnit(params.minSize);
   let maxSizeUnit = getUnit(params.maxSize);
   const widthUnit = getUnit(params.minWidth);
@@ -164,18 +164,28 @@ function buildRules(rule, declName, params, result) {
     throw rule.error('sizes with unitless values are not supported');
   }
 
-  if (sizeUnit !== maxSizeUnit && widthUnit !== maxWidthUnit) {
-    rule.warn(result, 'min/max unit types must match');
+  const isMismatchUnitsTypes = (
+    sizeUnit !== maxSizeUnit &&
+    widthUnit !== maxWidthUnit
+  );
+
+  const isNotSupportedUnitsCombination = (
+    (sizeUnit === 'px' && widthUnit === 'rem') ||
+    (sizeUnit === 'px' && widthUnit === 'em') ||
+    (sizeUnit === 'em' && widthUnit === 'px')
+  );
+
+  if (isMismatchUnitsTypes) {
+    rule.warn(result, `min/max unit types for ${rule.selector} ${declName} must match`);
+  }
+
+  if (isNotSupportedUnitsCombination) {
+    rule.warn(result, `this combination of units for ${rule.selector} ${declName} is not supported`);
   }
 
   if (sizeUnit === 'rem' && widthUnit === 'px') {
     minWidth = pxToRem(params.minWidth);
     maxWidth = pxToRem(params.maxWidth);
-  } else if (sizeUnit === widthUnit || sizeUnit === 'rem' && widthUnit === 'em') {
-    minWidth = params.minWidth;
-    maxWidth = params.maxWidth;
-  } else {
-    rule.warn(result, 'this combination of units is not supported');
   }
 
   // Build the responsive type decleration
