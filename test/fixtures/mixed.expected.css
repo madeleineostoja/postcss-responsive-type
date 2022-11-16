@@ -35,7 +35,7 @@
 }
 
 .baz {
-  font-size: calc(1em + 2 * ((100vw - undefined) / NaN));
+  font-size: calc(1em + 2 * ((100vw - 420px) / 860));
 }
 
 @media screen and (min-width: 1280px) {
