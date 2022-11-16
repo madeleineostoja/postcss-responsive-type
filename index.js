@@ -1,6 +1,7 @@
 'use strict';
 
 const postcss = require('postcss');
+const merge = require('lodash/merge');
 
 const DEFAULT_PARAMS = {
   'font-size': {
@@ -10,8 +11,8 @@ const DEFAULT_PARAMS = {
     maxWidth: '1280px',
   },
   'line-height': {
-    minSize: '1.2em',
-    maxSize: '1.8em',
+    minSize: '1.2rem',
+    maxSize: '1.8rem',
     minWidth: '420px',
     maxWidth: '1280px',
   },
@@ -249,6 +250,9 @@ function runPluginOnce(rootInstance, { result }) {
 
 const creator = (options = {}) => {
   const isRunOnExit = options.isRunOnExit || false;
+  const defaultParams = options.defaultParams || {};
+
+  merge(DEFAULT_PARAMS, defaultParams);
 
   return {
     postcssPlugin: 'postcss-responsive-type',
